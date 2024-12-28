@@ -2,6 +2,7 @@ package SP.ValidateAndError.service;
 
 import SP.ValidateAndError.dto.UserRequest;
 import SP.ValidateAndError.entity.User;
+import SP.ValidateAndError.exception.UserNotFoundException;
 import SP.ValidateAndError.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,15 @@ public class UserService {
         return repository.findAll();
     }
 
-    public User getUser(int id){
-        return repository.findByUserId(id);
+    public User getUser(int id) {
+        User user = repository.findByUserId(id);
+        if (user == null) {
+            try {
+                throw new UserNotFoundException("User Not Found");
+            } catch (UserNotFoundException e) {
+                System.out.println("Exception caught: " + e.getMessage());
+            }
+        }
+        return user;
     }
 }
