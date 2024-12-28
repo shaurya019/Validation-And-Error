@@ -3,6 +3,7 @@ package SP.ValidateAndError.controller;
 import SP.ValidateAndError.dto.UserRequest;
 import SP.ValidateAndError.entity.User;
 import SP.ValidateAndError.service.UserService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class UserController {
     private UserService service;
 
     @PostMapping("/signup")
-    public ResponseEntity<User> saveUser(@RequestBody UserRequest userRequest){
+    public ResponseEntity<User> saveUser(@RequestBody @Valid  UserRequest userRequest){
         return new ResponseEntity<>(service.saveUser(userRequest), HttpStatus.CREATED);
     }
 
